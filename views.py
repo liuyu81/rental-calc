@@ -33,7 +33,7 @@ def calc(request):
         'b2r': u"checked=checked" if op == u"b2r" else u"",
         'err': err
     })
-    tmpl = loader.get_template('calc.txt')
+    tmpl = loader.get_template('calc.tmpl')
     response = HttpResponse(content_type='text/html')
     response.write(tmpl.render(cntx))
     return response
