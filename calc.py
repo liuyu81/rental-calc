@@ -63,7 +63,7 @@ def b2r(b, v=220.00, y=15, d=3):
     return (poly_root(f) - 1.0)
 
 
-def main(args):
+def console_main(args):
     """console interface"""
     if len(args) < 2:
         print(("synopsis: %s r2b rate(r) [first_year_rental(v) "
@@ -95,7 +95,7 @@ def django_main(request):
     """wsgi/django interface"""
     from django.http import HttpResponse
     from django.template import loader, Context
-
+    # parameters
     data = request.REQUEST
     op = data[u"op"] if u"op" in data else u'r2b'
     v = float(data[u"v"].encode()) if u"v" in data else 220
@@ -104,20 +104,22 @@ def django_main(request):
     r = float(data[u"r"].encode()) / 100.0 if u"r" in data else 0.05
     b = float(data[u"b"].encode()) if u"b" in data else 4000.00
     err = u""
-
+    # calculation
     if op == u'b2r':
         try:
             r = b2r(b, v, y, d)
         except ValueError as e:
-            err = u"bad budget"
+            err = unicode(e)
             r = 0.0
+        pass
     if op == u'r2b':
         try:
             b = r2b(r, v, y, d)
         except ValueError as e:
-            err = u"bad rate"
+            err = unicode(e)
             b = 0.0
-
+        pass
+    # compose HTTP response
     response = HttpResponse(content_type='text/html')
     tmpl = loader.get_template('calc.tmpl')
     cntx = Context({
@@ -134,5 +136,4 @@ def django_main(request):
     return response
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
-
+    sys.exit(console_main(sys.argv[1:]))
