@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh_CN">
+<head>
+    <meta charset="utf-8" />
+    <title>租金计算</title>
+</head>
+<script src="/static/jquery.js"></script>
+<script>
+$(document).ready(function () {
+  $('input[name=r]').on("keypress", function (event) {
+    $('input:radio[name=op]').val(['r2b']).attr('checked', 'checked');
+  });
+  $('input[name=b]').on("keypress", function (event) {
+    $('input:radio[name=op]').val(['b2r']).attr('checked', 'checked');
+  });
+  $('input[name=r]').on("click", function (event) {
+    $('input:radio[name=op]').val(['r2b']).attr('checked', 'checked');
+    $('input:radio[name=op]').val(['r2b']).attr('checked', 'checked');
+  });
+  $('input[name=b]').on("click", function (event) {
+    $('input:radio[name=op]').val(['b2r']).attr('checked', 'checked');
+    $('input:radio[name=op]').val(['b2r']).attr('checked', 'checked');
+  });
+});
+</script>
+<body>
+  <form method="get" action="https://opencps.net/calc/">
+    租期: <input name="y" type="number" min="0" value="{{y}}" step="1" /> 年<br/>
+    每期: <input name="d" type="number" min="0" value="{{d}}" step="1" /> 年<br/>
+    首租: <input name="v" type="number" min="0" value="{{v|floatformat:0}}" step="1" /> 万元 / 年<br/>
+    <input name="op" type="radio" value="r2b" {% if r2b %}checked="checked"{% endif %}/>
+    增幅: <input name="r" type="number" min="0" value="{{r|floatformat:2}}" step="0.01"/> % / 每期<br/>
+    <input name="op" type="radio" value="b2r" {% if b2r %}checked="checked"{% endif %}/>
+    总额: <input name="b" type="number" min="0" value="{{b|floatformat}}" step="0.1"/> 万元<br/>
+    <p style="color: #ff0000">{{err}}</p>
+    <input name="submit" type="submit" value="计算"/>
+  </form>
+</body>
+</html>

@@ -1,5 +1,5 @@
-Estate Rental Calculator for Personal Use
+Real-estate rental calculator webapp for personal use
 
-backend: python wsgi + django template
+backend: python wsgi / django framework
 frontend: html + jquery
 
